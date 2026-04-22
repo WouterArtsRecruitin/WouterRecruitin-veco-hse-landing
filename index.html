@@ -469,7 +469,33 @@
   .video-tile.tile-product-static {
     background:
       linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.4) 100%),
-      url('images/hero-cleanroom.jpg') center / cover no-repeat;
+      url('images/production-floor.jpg') center / cover no-repeat;
+  }
+
+  /* Coming-soon tiles: no click, show badge instead of play-btn */
+  .video-tile.tile-coming-soon {
+    cursor: default !important;
+  }
+  .coming-badge {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--white);
+    text-align: center;
+    line-height: 1.4;
+    padding: 14px 24px;
+    border: 1px solid rgba(255,255,255,0.4);
+    border-radius: 2px;
+    backdrop-filter: blur(8px);
+    background: rgba(0,0,0,0.2);
+    pointer-events: none;
   }
 
   .video-tile:hover { transform: scale(1.02); }
@@ -957,11 +983,9 @@
     </p>
 
     <div class="video-mosaic">
-      <div class="video-tile tile-hero">
-        <video muted loop playsinline preload="none" poster="images/hero-cleanroom.jpg" data-src="videos/cleanroom.mp4">
-        </video>
+      <div class="video-tile tile-hero tile-coming-soon">
         <div class="tile-overlay"></div>
-        <div class="play-btn"></div>
+        <div class="coming-badge">Donderdag<br>opgenomen</div>
         <div class="video-tile-label">
           <strong>Feature · 2:34</strong>
           Volledig interview met Wim Workum
@@ -997,11 +1021,9 @@
           Het terrein + damherten
         </div>
       </div>
-      <div class="video-tile tile-product-static">
-        <video muted loop playsinline preload="none" poster="images/hero-cleanroom.jpg" data-src="videos/cleanroom.mp4">
-        </video>
+      <div class="video-tile tile-product-static tile-coming-soon">
         <div class="tile-overlay"></div>
-        <div class="play-btn"></div>
+        <div class="coming-badge">Binnenkort</div>
         <div class="video-tile-label">
           <strong>Product · 0:30</strong>
           Micro-precisie ±1 μm
