@@ -885,8 +885,7 @@
   </div>
 
   <div class="hero-video">
-    <video muted loop playsinline preload="metadata" poster="images/hero-cleanroom.jpg">
-      <source src="videos/cleanroom.mp4" type="video/mp4">
+    <video muted loop playsinline preload="none" poster="images/hero-cleanroom.jpg" data-src="videos/cleanroom.mp4">
     </video>
     <div class="hero-overlay"></div>
     <div class="play-btn"></div>
@@ -1113,96 +1112,56 @@
 </footer>
 
 <script>
-  // Lazy-load + auto-pause videos based on viewport visibility
-  // Only one mosaic video plays at a time to minimize CPU/bandwidth
+  // Click-to-play videos — no autoplay. Only one video plays at a time.
   (function() {
-    const mosaicVideos = document.querySelectorAll('.video-mosaic video[data-src]');
+    const allVideos = document.querySelectorAll('video[data-src]');
 
-    // Lazy-load: inject <source> only when tile is near viewport
-    const loadObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const video = entry.target;
-          if (!video.dataset.loaded) {
-            const source = document.createElement('source');
-            source.src = video.dataset.src;
-            source.type = 'video/mp4';
-            video.appendChild(source);
-            video.load();
-            video.dataset.loaded = 'true';
-          }
-          loadObserver.unobserve(video);
-        }
+    function loadSource(video) {
+      if (video.dataset.loaded) return;
+      // If video already has inline <source> (hero), just mark loaded
+      if (video.querySelector('source')) {
+        video.dataset.loaded = 'true';
+        return;
+      }
+      // Lazy inject
+      if (video.dataset.src) {
+        const source = document.createElement('source');
+        source.src = video.dataset.src;
+        source.type = 'video/mp4';
+        video.appendChild(source);
+        video.load();
+        video.dataset.loaded = 'true';
+      }
+    }
+
+    function pauseAllExcept(current) {
+      allVideos.forEach(v => {
+        if (v !== current && !v.paused) v.pause();
       });
-    }, { rootMargin: '200px' });
+    }
 
-    // Play/pause: only play videos that are actually visible
-    const playObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        const video = entry.target;
-        if (entry.isIntersecting && entry.intersectionRatio > 0.5) {
-          if (video.dataset.loaded) {
-            video.play().catch(() => {});
-          }
-        } else {
-          video.pause();
-        }
-      });
-    }, { threshold: [0, 0.5, 1] });
-
-    // Wire up play/pause state + click-to-play fallback on all videos
-    function wireVideo(video) {
+    allVideos.forEach(video => {
       const parent = video.parentElement;
-      const markPlaying = () => parent.classList.add('is-playing');
-      const markPaused = () => parent.classList.remove('is-playing');
 
-      // Multiple events for cross-browser reliability
-      video.addEventListener('playing', markPlaying);
-      video.addEventListener('play', markPlaying);
-      video.addEventListener('pause', markPaused);
-      video.addEventListener('ended', markPaused);
-      video.addEventListener('waiting', markPaused);
+      // Mark play state for CSS (hide play-btn when actively playing)
+      video.addEventListener('playing', () => parent.classList.add('is-playing'));
+      video.addEventListener('play', () => parent.classList.add('is-playing'));
+      video.addEventListener('pause', () => parent.classList.remove('is-playing'));
+      video.addEventListener('ended', () => parent.classList.remove('is-playing'));
 
-      // Click anywhere on tile to toggle play (fallback for autoplay-blocked browsers)
+      // Click to toggle play/pause. Pauses any other playing video.
       parent.style.cursor = 'pointer';
-      parent.addEventListener('click', () => {
+      parent.addEventListener('click', (e) => {
+        e.preventDefault();
         if (video.paused) {
-          if (!video.dataset.loaded && video.dataset.src) {
-            const source = document.createElement('source');
-            source.src = video.dataset.src;
-            source.type = 'video/mp4';
-            video.appendChild(source);
-            video.load();
-            video.dataset.loaded = 'true';
-          }
+          loadSource(video);
+          pauseAllExcept(video);
           video.play().catch(() => {});
         } else {
           video.pause();
         }
       });
-    }
-
-    mosaicVideos.forEach(video => {
-      loadObserver.observe(video);
-      playObserver.observe(video);
-      wireVideo(video);
     });
-
-    // Hero video
-    const heroVideo = document.querySelector('.hero-video video');
-    if (heroVideo) {
-      wireVideo(heroVideo);
-      const heroObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            heroVideo.play().catch(() => {});
-          } else {
-            heroVideo.pause();
-          }
-        });
-      }, { threshold: 0.25 });
-      heroObserver.observe(heroVideo);
-    }
   })();
 </script>
 </body>
