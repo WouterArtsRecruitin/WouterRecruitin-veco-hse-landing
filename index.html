@@ -494,7 +494,7 @@
     pointer-events: none;
   }
   .video-tile .play-btn,
-  .video-tile .video-tile-label { z-index: 2; }
+  .video-tile .video-tile-label { z-index: 2; pointer-events: none; }
 
   .video-tile-label {
     position: absolute;
@@ -978,7 +978,7 @@
         </div>
       </div>
       <div class="video-tile">
-        <video muted loop playsinline preload="none" data-src="videos/engineer-walking.mp4">
+        <video muted loop playsinline preload="none" poster="images/production-floor.jpg" data-src="videos/engineer-walking.mp4">
         </video>
         <div class="tile-overlay"></div>
         <div class="play-btn"></div>
@@ -998,6 +998,8 @@
         </div>
       </div>
       <div class="video-tile tile-product-static">
+        <video muted loop playsinline preload="none" poster="images/hero-cleanroom.jpg" data-src="videos/cleanroom.mp4">
+        </video>
         <div class="tile-overlay"></div>
         <div class="play-btn"></div>
         <div class="video-tile-label">
