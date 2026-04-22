@@ -248,14 +248,12 @@
     pointer-events: none;
   }
 
-  /* Hide play-btn when its sibling video is actively playing */
+  /* Hide play-btn when its sibling video is actively playing — NO hover override */
   .hero-video.is-playing .play-btn,
   .video-tile.is-playing .play-btn {
-    opacity: 0;
-  }
-  .hero-video:hover .play-btn,
-  .video-tile:hover .play-btn {
-    opacity: 1 !important;
+    opacity: 0 !important;
+    visibility: hidden;
+    transition: opacity 0.4s ease, visibility 0s linear 0.4s;
   }
 
   .hero-video:hover .play-btn {
@@ -1143,9 +1141,8 @@
       entries.forEach(entry => {
         const video = entry.target;
         if (entry.isIntersecting && entry.intersectionRatio > 0.5) {
-          // Only play if loaded
           if (video.dataset.loaded) {
-            video.play().catch(() => {}); // Silently fail if autoplay policy blocks
+            video.play().catch(() => {});
           }
         } else {
           video.pause();
@@ -1153,19 +1150,48 @@
       });
     }, { threshold: [0, 0.5, 1] });
 
+    // Wire up play/pause state + click-to-play fallback on all videos
+    function wireVideo(video) {
+      const parent = video.parentElement;
+      const markPlaying = () => parent.classList.add('is-playing');
+      const markPaused = () => parent.classList.remove('is-playing');
+
+      // Multiple events for cross-browser reliability
+      video.addEventListener('playing', markPlaying);
+      video.addEventListener('play', markPlaying);
+      video.addEventListener('pause', markPaused);
+      video.addEventListener('ended', markPaused);
+      video.addEventListener('waiting', markPaused);
+
+      // Click anywhere on tile to toggle play (fallback for autoplay-blocked browsers)
+      parent.style.cursor = 'pointer';
+      parent.addEventListener('click', () => {
+        if (video.paused) {
+          if (!video.dataset.loaded && video.dataset.src) {
+            const source = document.createElement('source');
+            source.src = video.dataset.src;
+            source.type = 'video/mp4';
+            video.appendChild(source);
+            video.load();
+            video.dataset.loaded = 'true';
+          }
+          video.play().catch(() => {});
+        } else {
+          video.pause();
+        }
+      });
+    }
+
     mosaicVideos.forEach(video => {
       loadObserver.observe(video);
       playObserver.observe(video);
-      // Toggle .is-playing on parent tile
-      video.addEventListener('play', () => video.parentElement.classList.add('is-playing'));
-      video.addEventListener('pause', () => video.parentElement.classList.remove('is-playing'));
+      wireVideo(video);
     });
 
-    // Hero video: start only when ready + visible
+    // Hero video
     const heroVideo = document.querySelector('.hero-video video');
     if (heroVideo) {
-      heroVideo.addEventListener('play', () => heroVideo.parentElement.classList.add('is-playing'));
-      heroVideo.addEventListener('pause', () => heroVideo.parentElement.classList.remove('is-playing'));
+      wireVideo(heroVideo);
       const heroObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
