@@ -243,8 +243,19 @@
     align-items: center;
     justify-content: center;
     z-index: 2;
-    transition: transform 0.3s, background 0.3s;
+    transition: transform 0.3s, background 0.3s, opacity 0.6s ease;
     box-shadow: 0 20px 60px rgba(4,164,204,0.3);
+    pointer-events: none;
+  }
+
+  /* Hide play-btn when its sibling video is actively playing */
+  .hero-video.is-playing .play-btn,
+  .video-tile.is-playing .play-btn {
+    opacity: 0;
+  }
+  .hero-video:hover .play-btn,
+  .video-tile:hover .play-btn {
+    opacity: 1 !important;
   }
 
   .hero-video:hover .play-btn {
@@ -456,6 +467,11 @@
     background:
       linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.4) 100%),
       url('images/damherten.jpg') center 35% / cover no-repeat;
+  }
+  .video-tile.tile-product-static {
+    background:
+      linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.4) 100%),
+      url('images/hero-cleanroom.jpg') center / cover no-repeat;
   }
 
   .video-tile:hover { transform: scale(1.02); }
@@ -871,7 +887,7 @@
   </div>
 
   <div class="hero-video">
-    <video autoplay muted loop playsinline preload="metadata" poster="images/hero-cleanroom.jpg">
+    <video muted loop playsinline preload="metadata" poster="images/hero-cleanroom.jpg">
       <source src="videos/cleanroom.mp4" type="video/mp4">
     </video>
     <div class="hero-overlay"></div>
@@ -945,8 +961,7 @@
 
     <div class="video-mosaic">
       <div class="video-tile tile-hero">
-        <video autoplay muted loop playsinline preload="metadata" poster="images/hero-cleanroom.jpg">
-          <source src="videos/cleanroom.mp4" type="video/mp4">
+        <video muted loop playsinline preload="none" poster="images/hero-cleanroom.jpg" data-src="videos/cleanroom.mp4">
         </video>
         <div class="tile-overlay"></div>
         <div class="play-btn"></div>
@@ -956,8 +971,7 @@
         </div>
       </div>
       <div class="video-tile tile-production">
-        <video autoplay muted loop playsinline preload="metadata" poster="images/production-floor.jpg">
-          <source src="videos/engineer-tablet.mp4" type="video/mp4">
+        <video muted loop playsinline preload="none" poster="images/production-floor.jpg" data-src="videos/engineer-tablet.mp4">
         </video>
         <div class="tile-overlay"></div>
         <div class="play-btn"></div>
@@ -967,8 +981,7 @@
         </div>
       </div>
       <div class="video-tile">
-        <video autoplay muted loop playsinline preload="metadata">
-          <source src="videos/engineer-walking.mp4" type="video/mp4">
+        <video muted loop playsinline preload="none" data-src="videos/engineer-walking.mp4">
         </video>
         <div class="tile-overlay"></div>
         <div class="play-btn"></div>
@@ -978,8 +991,7 @@
         </div>
       </div>
       <div class="video-tile tile-terrain">
-        <video autoplay muted loop playsinline preload="metadata" poster="images/damherten.jpg">
-          <source src="videos/damherten.mp4" type="video/mp4">
+        <video muted loop playsinline preload="none" poster="images/damherten.jpg" data-src="videos/damherten.mp4">
         </video>
         <div class="tile-overlay"></div>
         <div class="play-btn"></div>
@@ -988,10 +1000,7 @@
           Het terrein + damherten
         </div>
       </div>
-      <div class="video-tile">
-        <video autoplay muted loop playsinline preload="metadata" poster="images/hero-cleanroom.jpg">
-          <source src="videos/cleanroom.mp4" type="video/mp4">
-        </video>
+      <div class="video-tile tile-product-static">
         <div class="tile-overlay"></div>
         <div class="play-btn"></div>
         <div class="video-tile-label">
@@ -1105,5 +1114,70 @@
   <div>werkenbij.recruitin.nl/veco</div>
 </footer>
 
+<script>
+  // Lazy-load + auto-pause videos based on viewport visibility
+  // Only one mosaic video plays at a time to minimize CPU/bandwidth
+  (function() {
+    const mosaicVideos = document.querySelectorAll('.video-mosaic video[data-src]');
+
+    // Lazy-load: inject <source> only when tile is near viewport
+    const loadObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const video = entry.target;
+          if (!video.dataset.loaded) {
+            const source = document.createElement('source');
+            source.src = video.dataset.src;
+            source.type = 'video/mp4';
+            video.appendChild(source);
+            video.load();
+            video.dataset.loaded = 'true';
+          }
+          loadObserver.unobserve(video);
+        }
+      });
+    }, { rootMargin: '200px' });
+
+    // Play/pause: only play videos that are actually visible
+    const playObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        const video = entry.target;
+        if (entry.isIntersecting && entry.intersectionRatio > 0.5) {
+          // Only play if loaded
+          if (video.dataset.loaded) {
+            video.play().catch(() => {}); // Silently fail if autoplay policy blocks
+          }
+        } else {
+          video.pause();
+        }
+      });
+    }, { threshold: [0, 0.5, 1] });
+
+    mosaicVideos.forEach(video => {
+      loadObserver.observe(video);
+      playObserver.observe(video);
+      // Toggle .is-playing on parent tile
+      video.addEventListener('play', () => video.parentElement.classList.add('is-playing'));
+      video.addEventListener('pause', () => video.parentElement.classList.remove('is-playing'));
+    });
+
+    // Hero video: start only when ready + visible
+    const heroVideo = document.querySelector('.hero-video video');
+    if (heroVideo) {
+      heroVideo.addEventListener('play', () => heroVideo.parentElement.classList.add('is-playing'));
+      heroVideo.addEventListener('pause', () => heroVideo.parentElement.classList.remove('is-playing'));
+      const heroObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            heroVideo.play().catch(() => {});
+          } else {
+            heroVideo.pause();
+          }
+        });
+      }, { threshold: 0.25 });
+      heroObserver.observe(heroVideo);
+    }
+  })();
+</script>
 </body>
 </html>
