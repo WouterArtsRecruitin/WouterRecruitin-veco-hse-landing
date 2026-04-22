@@ -1,0 +1,1109 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Werken bij Veco · HSE Engineer · werkenbij.recruitin.nl</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --veco-cyan: #4fc4cb;
+    --veco-blue: #2f3541;
+    --veco-ice: #f1f2f3;
+    --veco-magenta: #e06299;
+    --veco-indigo: #2f3541;
+    --ink: #000000;
+    --text: #444444;
+    --text-mid: #666666;
+    --text-light: #999999;
+    --white: #FFFFFF;
+    --gray-100: #F0F0F0;
+    --gray-50: #F5F5F5;
+    --line: rgba(0,0,0,0.1);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--white);
+    color: var(--text);
+    font-family: 'Assistant', -apple-system, sans-serif;
+    font-weight: 400;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  a { color: inherit; text-decoration: none; }
+
+  /* NAV */
+  .nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    padding: 20px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255,255,255,0.9);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .nav-logo {
+    font-family: 'Assistant', sans-serif;
+    font-weight: 800;
+    font-size: 20px;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+  }
+
+  .nav-logo span { color: var(--veco-cyan); }
+
+  .nav-cta {
+    background: var(--veco-magenta);
+    color: var(--white);
+    padding: 10px 20px;
+    font-size: 13px;
+    font-weight: 600;
+    border-radius: 3px;
+    transition: background 0.2s;
+  }
+
+  .nav-cta:hover { background: var(--veco-cyan); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    padding: 120px 40px 80px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+    position: relative;
+    background: var(--white);
+  }
+
+  .hero-left { position: relative; z-index: 2; }
+
+  .hero-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--veco-magenta);
+    font-weight: 600;
+    margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .hero-eyebrow::before {
+    content: '';
+    width: 24px;
+    height: 2px;
+    background: var(--veco-magenta);
+  }
+
+  .hero-title {
+    font-family: 'Assistant', sans-serif;
+    font-weight: 300;
+    font-size: clamp(2.5rem, 6vw, 5.5rem);
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    margin-bottom: 30px;
+    color: var(--ink);
+  }
+
+  .hero-title em {
+    font-style: normal;
+    font-weight: 800;
+    color: var(--veco-cyan);
+    position: relative;
+  }
+
+  .hero-title em::after {
+    content: '';
+    position: absolute;
+    bottom: 4px;
+    left: 0;
+    right: 0;
+    height: 14px;
+    background: var(--veco-ice);
+    z-index: -1;
+  }
+
+  .hero-sub {
+    font-size: 19px;
+    line-height: 1.55;
+    color: var(--text);
+    max-width: 480px;
+    margin-bottom: 40px;
+  }
+
+  .hero-sub strong { color: var(--ink); font-weight: 700; }
+
+  .hero-actions {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    background: var(--veco-magenta);
+    color: var(--white);
+    padding: 16px 32px;
+    font-size: 15px;
+    font-weight: 600;
+    border-radius: 3px;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    transition: background 0.2s, transform 0.2s;
+  }
+
+  .btn-primary:hover { background: var(--veco-cyan); transform: translateY(-1px); }
+
+  .btn-primary::after {
+    content: '→';
+    font-size: 18px;
+    transition: transform 0.2s;
+  }
+
+  .btn-primary:hover::after { transform: translateX(4px); }
+
+  .btn-ghost {
+    padding: 16px 0;
+    font-size: 15px;
+    font-weight: 500;
+    border-bottom: 2px solid var(--ink);
+    color: var(--ink);
+    transition: color 0.2s, border-color 0.2s;
+  }
+
+  .btn-ghost:hover { color: var(--veco-cyan); border-color: var(--veco-cyan); }
+
+  /* Hero video */
+  .hero-video {
+    aspect-ratio: 4/5;
+    background: linear-gradient(135deg, var(--ink) 0%, var(--veco-indigo) 100%);
+    background-image:
+      linear-gradient(135deg, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0.55) 100%),
+      url('images/hero-cleanroom.jpg');
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+
+  .hero-video::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.08) 1px, transparent 0);
+    background-size: 10px 10px;
+    pointer-events: none;
+    z-index: 2;
+  }
+  .hero-video video {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    z-index: 0;
+  }
+  .hero-video .hero-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0.55) 100%);
+    z-index: 1; pointer-events: none;
+  }
+  .hero-video .play-btn,
+  .hero-video .video-label { z-index: 3; }
+
+  .play-btn {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: var(--veco-cyan);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    transition: transform 0.3s, background 0.3s;
+    box-shadow: 0 20px 60px rgba(4,164,204,0.3);
+  }
+
+  .hero-video:hover .play-btn {
+    transform: translate(-50%,-50%) scale(1.1);
+    background: var(--veco-magenta);
+    box-shadow: 0 20px 60px rgba(224,98,153,0.4);
+  }
+
+  .play-btn::after {
+    content: '';
+    width: 0;
+    height: 0;
+    border-top: 14px solid transparent;
+    border-bottom: 14px solid transparent;
+    border-left: 22px solid var(--white);
+    margin-left: 4px;
+  }
+
+  .video-label {
+    position: absolute;
+    bottom: 24px;
+    left: 24px;
+    right: 24px;
+    color: var(--white);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    opacity: 0.9;
+    z-index: 2;
+  }
+
+  .video-label strong {
+    color: var(--veco-cyan);
+    display: block;
+    font-size: 10px;
+    margin-bottom: 6px;
+    font-weight: 600;
+  }
+
+  /* STRIP QUOTE */
+  .strip-quote {
+    background: var(--veco-cyan);
+    color: var(--white);
+    padding: 80px 40px;
+    text-align: center;
+  }
+
+  .strip-quote-text {
+    font-family: 'Assistant', sans-serif;
+    font-weight: 300;
+    font-size: clamp(1.5rem, 3vw, 2.75rem);
+    line-height: 1.3;
+    max-width: 900px;
+    margin: 0 auto 24px;
+  }
+
+  .strip-quote-text em {
+    font-style: normal;
+    color: var(--white);
+    font-weight: 700;
+    border-bottom: 2px solid rgba(255,255,255,0.5);
+    padding-bottom: 2px;
+  }
+
+  .strip-quote-attr {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    opacity: 0.85;
+  }
+
+  /* CHAPTER */
+  .chapter {
+    padding: 120px 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .chapter-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--veco-magenta);
+    font-weight: 600;
+    margin-bottom: 20px;
+  }
+
+  .chapter-title {
+    font-family: 'Assistant', sans-serif;
+    font-weight: 400;
+    font-size: clamp(2rem, 4.5vw, 3.75rem);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 30px;
+    max-width: 900px;
+    color: var(--ink);
+  }
+
+  .chapter-title em {
+    font-style: normal;
+    font-weight: 800;
+    color: var(--veco-cyan);
+  }
+
+  .chapter-intro {
+    font-size: 18px;
+    line-height: 1.6;
+    color: var(--text);
+    max-width: 640px;
+    margin-bottom: 60px;
+  }
+
+  /* WORK */
+  .work-stack {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+  }
+
+  .work-card {
+    background: var(--white);
+    border: 1px solid var(--line);
+    padding: 40px 35px;
+    position: relative;
+    transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+    border-radius: 4px;
+  }
+
+  .work-card:hover {
+    border-color: var(--veco-cyan);
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px rgba(4,164,204,0.1);
+  }
+
+  .work-card-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--veco-cyan);
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    margin-bottom: 16px;
+  }
+
+  .work-card-title {
+    font-family: 'Assistant', sans-serif;
+    font-weight: 700;
+    font-size: 28px;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    margin-bottom: 16px;
+    color: var(--ink);
+  }
+
+  .work-card-desc {
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--text);
+  }
+
+  /* VIDEO MOSAIC */
+  .video-section {
+    padding: 120px 40px;
+    background: var(--ink);
+    color: var(--white);
+  }
+
+  .video-section .chapter-tag { color: var(--veco-cyan); }
+  .video-section .chapter-title { color: var(--white); }
+  .video-section .chapter-intro { color: rgba(255,255,255,0.7); }
+
+  .video-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .video-mosaic {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-rows: 300px 300px;
+    gap: 16px;
+  }
+
+  .video-tile {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    background: linear-gradient(135deg, #111 0%, var(--veco-indigo) 100%);
+    background-image: radial-gradient(circle at 1px 1px, rgba(4,164,204,0.15) 1px, transparent 0);
+    background-size: 8px 8px;
+    transition: transform 0.3s;
+    border-radius: 4px;
+  }
+
+  /* Image backgrounds for specific tiles */
+  .video-tile.tile-hero {
+    background:
+      linear-gradient(to top, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.45) 100%),
+      url('images/hero-cleanroom.jpg') center / cover no-repeat;
+  }
+  .video-tile.tile-production {
+    background:
+      linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.4) 100%),
+      url('images/production-floor.jpg') center / cover no-repeat;
+  }
+  .video-tile.tile-terrain {
+    background:
+      linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.4) 100%),
+      url('images/damherten.jpg') center 35% / cover no-repeat;
+  }
+
+  .video-tile:hover { transform: scale(1.02); }
+
+  .video-tile:nth-child(1) { grid-row: span 2; }
+
+  /* Native video element inside tile */
+  .video-tile video {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+    display: block;
+  }
+  .video-tile .tile-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.15) 55%, rgba(0,0,0,0.45) 100%);
+    z-index: 1;
+    pointer-events: none;
+  }
+  .video-tile .play-btn,
+  .video-tile .video-tile-label { z-index: 2; }
+
+  .video-tile-label {
+    position: absolute;
+    bottom: 16px;
+    left: 16px;
+    right: 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--white);
+    opacity: 0.9;
+  }
+
+  .video-tile-label strong {
+    display: block;
+    color: var(--veco-cyan);
+    font-size: 9px;
+    margin-bottom: 4px;
+    font-weight: 600;
+  }
+
+  .video-tile .play-btn {
+    width: 60px;
+    height: 60px;
+    box-shadow: 0 10px 30px rgba(4,164,204,0.4);
+  }
+
+  .video-tile .play-btn::after {
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    border-left: 12px solid var(--white);
+  }
+
+  .video-tile:nth-child(1) .play-btn { width: 80px; height: 80px; }
+
+  /* TIMELINE */
+  .timeline-section {
+    padding: 120px 40px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .timeline {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    position: relative;
+    margin-top: 60px;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    top: 30px;
+    left: 12%;
+    right: 12%;
+    height: 2px;
+    background: var(--veco-cyan);
+    z-index: 0;
+  }
+
+  .timeline-step {
+    position: relative;
+    padding: 0 15px;
+    z-index: 1;
+  }
+
+  .timeline-dot {
+    width: 60px;
+    height: 60px;
+    background: var(--white);
+    border: 3px solid var(--veco-cyan);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Assistant', sans-serif;
+    font-weight: 800;
+    font-size: 22px;
+    color: var(--veco-cyan);
+    margin: 0 auto 24px;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+  }
+
+  .timeline-step:hover .timeline-dot {
+    background: var(--veco-magenta);
+    color: var(--white);
+    border-color: var(--veco-magenta);
+  }
+
+  .timeline-year {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--veco-magenta);
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 12px;
+  }
+
+  .timeline-title {
+    font-family: 'Assistant', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    margin-bottom: 10px;
+    text-align: center;
+    line-height: 1.2;
+    color: var(--ink);
+  }
+
+  .timeline-text {
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--text);
+    text-align: center;
+  }
+
+  /* AMBIENT STRIP */
+  .ambient-strip {
+    position: relative;
+    padding: 140px 40px;
+    color: var(--white);
+    overflow: hidden;
+  }
+  .ambient-terrain {
+    background:
+      linear-gradient(to right, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.5) 50%, rgba(0,0,0,0.3) 100%),
+      url('images/damherten.jpg') center 40% / cover no-repeat;
+  }
+  .ambient-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+  }
+  .ambient-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.25em;
+    color: var(--veco-magenta);
+    text-transform: uppercase;
+    font-weight: 500;
+    margin-bottom: 24px;
+  }
+  .ambient-title {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 700;
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 32px;
+    color: var(--white);
+  }
+  .ambient-title em {
+    font-style: italic;
+    color: var(--veco-magenta);
+    font-weight: 400;
+  }
+  .ambient-sub {
+    font-size: 18px;
+    line-height: 1.6;
+    max-width: 560px;
+    color: rgba(255,255,255,0.88);
+  }
+
+  /* STATS */
+  .stats-section {
+    background: var(--veco-ice);
+    padding: 100px 40px;
+  }
+
+  .stats-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+  }
+
+  .stat {
+    border-top: 2px solid var(--veco-cyan);
+    padding-top: 24px;
+  }
+
+  .stat-num {
+    font-family: 'Assistant', sans-serif;
+    font-weight: 800;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    margin-bottom: 16px;
+    color: var(--ink);
+  }
+
+  .stat-label {
+    font-size: 14px;
+    line-height: 1.4;
+    color: var(--text);
+  }
+
+  .stat-label strong {
+    display: block;
+    color: var(--ink);
+    font-weight: 700;
+    margin-bottom: 4px;
+    font-size: 15px;
+  }
+
+  /* FINAL CTA */
+  .final-cta {
+    padding: 140px 40px;
+    background: var(--ink);
+    color: var(--white);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .final-cta::before {
+    content: 'E.';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Assistant', sans-serif;
+    font-weight: 800;
+    font-size: 60vw;
+    line-height: 0.8;
+    color: rgba(4,164,204,0.06);
+    letter-spacing: -0.05em;
+    pointer-events: none;
+  }
+
+  .final-cta-inner {
+    position: relative;
+    z-index: 1;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .final-cta-title {
+    font-family: 'Assistant', sans-serif;
+    font-weight: 300;
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    margin-bottom: 30px;
+  }
+
+  .final-cta-title em {
+    font-style: normal;
+    color: var(--veco-cyan);
+    font-weight: 800;
+  }
+
+  .final-cta-sub {
+    font-size: 19px;
+    line-height: 1.6;
+    color: rgba(255,255,255,0.75);
+    margin-bottom: 50px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .final-cta-actions {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .btn-magenta {
+    background: var(--veco-magenta);
+    color: var(--white);
+    padding: 18px 36px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 3px;
+    transition: background 0.2s, transform 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .btn-magenta:hover { background: var(--veco-cyan); transform: translateY(-2px); }
+
+  .btn-magenta::after { content: '→'; font-size: 20px; }
+
+  .final-cta-contact {
+    margin-top: 60px;
+    padding-top: 40px;
+    border-top: 1px solid rgba(255,255,255,0.15);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: rgba(255,255,255,0.6);
+  }
+
+  .final-cta-contact a {
+    color: var(--veco-cyan);
+    border-bottom: 1px dotted var(--veco-cyan);
+    transition: color 0.2s;
+  }
+
+  .final-cta-contact a:hover { color: var(--veco-magenta); }
+
+  /* FOOTER */
+  .footer {
+    padding: 40px;
+    background: var(--ink);
+    color: rgba(255,255,255,0.6);
+    border-top: 2px solid var(--veco-cyan);
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 40px;
+    font-size: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .footer div:last-child { text-align: right; }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    .nav { padding: 16px 20px; }
+    .hero {
+      grid-template-columns: 1fr;
+      gap: 40px;
+      padding: 120px 25px 60px;
+    }
+    .work-stack { grid-template-columns: 1fr; gap: 16px; }
+    .video-mosaic {
+      grid-template-columns: 1fr;
+      grid-template-rows: 250px 200px 200px 200px;
+    }
+    .video-tile:nth-child(1) { grid-row: span 1; }
+    .timeline {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+    .timeline::before { display: none; }
+    .stats-inner { grid-template-columns: 1fr 1fr; }
+    .footer {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+    .footer div:last-child { text-align: left; }
+    .chapter, .timeline-section, .video-section { padding: 80px 25px; }
+    .stats-section, .final-cta { padding: 80px 25px; }
+    .ambient-strip { padding: 80px 25px; }
+    .ambient-terrain {
+      background:
+        linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.6) 100%),
+        url('images/damherten.jpg') center / cover no-repeat;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav class="nav">
+  <div class="nav-logo">Veco <span>×</span> Recruitin</div>
+  <a href="#kennismaking" class="nav-cta">Kennismaken →</a>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow">HSE Engineer · Environment · Eerbeek</div>
+    <h1 class="hero-title">
+      We hebben<br>
+      de Q en HS.<br>
+      Wij zoeken<br>
+      de <em>E</em>.
+    </h1>
+    <p class="hero-sub">
+      Een <strong>HBO-starter</strong> met milieu-affiniteit. Geen compliance-afvinker — iemand die ons proces begrijpt en helpt verbeteren. Mentoring door Wim Workum. Groei naar Senior in 5 jaar.
+    </p>
+    <div class="hero-actions">
+      <a href="#kennismaking" class="btn-primary">Kennismaken met Wouter</a>
+      <a href="#werk" class="btn-ghost">Zie het werk</a>
+    </div>
+  </div>
+
+  <div class="hero-video">
+    <video autoplay muted loop playsinline preload="metadata" poster="images/hero-cleanroom.jpg">
+      <source src="videos/cleanroom.mp4" type="video/mp4">
+    </video>
+    <div class="hero-overlay"></div>
+    <div class="play-btn"></div>
+    <div class="video-label">
+      <strong>Interview · 2:34</strong>
+      Wim Workum · HSE Engineer · Veco Precision
+    </div>
+  </div>
+</section>
+
+<!-- Strip quote -->
+<section class="strip-quote">
+  <p class="strip-quote-text">
+    We zoeken geen compliance-medewerker. We zoeken een <em>collega</em> die ons proces begrijpt en helpt verbeteren.
+  </p>
+  <p class="strip-quote-attr">— Wim Workum · HSE Engineer · Veco</p>
+</section>
+
+<!-- Chapter 1 -->
+<section class="chapter" id="werk">
+  <div class="chapter-tag">Hoofdstuk 01 · Het werk</div>
+  <h2 class="chapter-title">Drie projecten waar je <em>dit jaar</em> aan werkt.</h2>
+  <p class="chapter-intro">
+    Geen theorie. Geen "misschien ooit". Dit zijn de projecten die nu al op de planning staan voor onze nieuwe HSE Engineer.
+  </p>
+
+  <div class="work-stack">
+    <article class="work-card">
+      <div class="work-card-num">Project 01</div>
+      <h3 class="work-card-title">Warmtepomp-analyse</h3>
+      <p class="work-card-desc">
+        Reken de milieu- en energie-impact door van een nieuwe warmtepomp-installatie. Samenwerking met R&D, facilities, en een externe ingenieur. Eindproduct: een technisch onderbouwd advies voor het MT.
+      </p>
+    </article>
+
+    <article class="work-card">
+      <div class="work-card-num">Project 02</div>
+      <h3 class="work-card-title">Afvalstroom herinrichting</h3>
+      <p class="work-card-desc">
+        Coördineer met onze externe milieudienst de herindeling van onze afvalstoffenopslag. Doorvertalen naar nieuwe procesinstructies, trainingen en audit-trails.
+      </p>
+    </article>
+
+    <article class="work-card">
+      <div class="work-card-num">Project 03</div>
+      <h3 class="work-card-title">ISO 14001 verdieping</h3>
+      <p class="work-card-desc">
+        Bereid onze interne audit voor. Herzie processbeschrijvingen. Train collega's in het nieuwe framework. Voer de audit zelf uit. Rapporteer bevindingen aan het MT.
+      </p>
+    </article>
+
+    <article class="work-card">
+      <div class="work-card-num">Project 04</div>
+      <h3 class="work-card-title">Energie-audit clean room</h3>
+      <p class="work-card-desc">
+        Onze clean rooms gebruiken significante energie. Analyseer het verbruik van procesapparatuur, formuleer besparingsvoorstellen, en werk samen met productie aan implementatie.
+      </p>
+    </article>
+  </div>
+</section>
+
+<!-- Video mosaic -->
+<section class="video-section">
+  <div class="video-inner">
+    <div class="chapter-tag">Hoofdstuk 02 · Achter de schermen</div>
+    <h2 class="chapter-title">Zie het werk. <em>Letterlijk.</em></h2>
+    <p class="chapter-intro">
+      We hebben onze productievloer, clean room, team en terrein in beeld gebracht. Kijk mee, en besluit zelf of het past.
+    </p>
+
+    <div class="video-mosaic">
+      <div class="video-tile tile-hero">
+        <video autoplay muted loop playsinline preload="metadata" poster="images/hero-cleanroom.jpg">
+          <source src="videos/cleanroom.mp4" type="video/mp4">
+        </video>
+        <div class="tile-overlay"></div>
+        <div class="play-btn"></div>
+        <div class="video-tile-label">
+          <strong>Feature · 2:34</strong>
+          Volledig interview met Wim Workum
+        </div>
+      </div>
+      <div class="video-tile tile-production">
+        <video autoplay muted loop playsinline preload="metadata" poster="images/production-floor.jpg">
+          <source src="videos/engineer-tablet.mp4" type="video/mp4">
+        </video>
+        <div class="tile-overlay"></div>
+        <div class="play-btn"></div>
+        <div class="video-tile-label">
+          <strong>Tour · 0:45</strong>
+          Clean room walk-through
+        </div>
+      </div>
+      <div class="video-tile">
+        <video autoplay muted loop playsinline preload="metadata">
+          <source src="videos/engineer-walking.mp4" type="video/mp4">
+        </video>
+        <div class="tile-overlay"></div>
+        <div class="play-btn"></div>
+        <div class="video-tile-label">
+          <strong>Team · 0:30</strong>
+          QHSE-collega's maken kennis
+        </div>
+      </div>
+      <div class="video-tile tile-terrain">
+        <video autoplay muted loop playsinline preload="metadata" poster="images/damherten.jpg">
+          <source src="videos/damherten.mp4" type="video/mp4">
+        </video>
+        <div class="tile-overlay"></div>
+        <div class="play-btn"></div>
+        <div class="video-tile-label">
+          <strong>Locatie · 0:40</strong>
+          Het terrein + damherten
+        </div>
+      </div>
+      <div class="video-tile">
+        <video autoplay muted loop playsinline preload="metadata" poster="images/hero-cleanroom.jpg">
+          <source src="videos/cleanroom.mp4" type="video/mp4">
+        </video>
+        <div class="tile-overlay"></div>
+        <div class="play-btn"></div>
+        <div class="video-tile-label">
+          <strong>Product · 0:30</strong>
+          Micro-precisie ±1 μm
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Timeline -->
+<section class="timeline-section">
+  <div class="chapter-tag">Hoofdstuk 03 · Jouw groei</div>
+  <h2 class="chapter-title">Van <em>starter</em> naar Senior HSE Engineer.</h2>
+  <p class="chapter-intro">
+    Geen holle belofte. Een concreet pad dat we al eerder hebben gelopen met collega's.
+  </p>
+
+  <div class="timeline">
+    <div class="timeline-step">
+      <div class="timeline-dot">01</div>
+      <div class="timeline-year">Jaar 1</div>
+      <h4 class="timeline-title">Starter + mentor</h4>
+      <p class="timeline-text">Onboarding, buddy in Quality-team, Wim als directe mentor.</p>
+    </div>
+    <div class="timeline-step">
+      <div class="timeline-dot">02</div>
+      <div class="timeline-year">Jaar 2-3</div>
+      <h4 class="timeline-title">Medior Engineer</h4>
+      <p class="timeline-text">Eigen projecten, aanspreekpunt milieu, mogelijk eerste IDEX-contact.</p>
+    </div>
+    <div class="timeline-step">
+      <div class="timeline-dot">03</div>
+      <div class="timeline-year">Jaar 4-5</div>
+      <h4 class="timeline-title">Senior</h4>
+      <p class="timeline-text">Afdelingsbreed advies, strategische vraagstukken, internationaal mogelijk.</p>
+    </div>
+    <div class="timeline-step">
+      <div class="timeline-dot">04</div>
+      <div class="timeline-year">Jaar 5+</div>
+      <h4 class="timeline-title">QHSE Coördinator</h4>
+      <p class="timeline-text">Of IDEX-breed mobiel naar UK, India, USA. Jouw keuze.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Ambient strip — Veluwe context -->
+<section class="ambient-strip ambient-terrain">
+  <div class="ambient-inner">
+    <div class="ambient-tag">Tussenstop · De Veluwe</div>
+    <h2 class="ambient-title">
+      Je <em>lunchwandeling</em><br>
+      loopt hier.
+    </h2>
+    <p class="ambient-sub">
+      Veco's terrein grenst aan bos. Damherten zijn regelmatig bezoekers.
+      Niet als recruitment-gimmick, gewoon omdat we in Eerbeek zitten.
+    </p>
+  </div>
+</section>
+
+<!-- Stats -->
+<section class="stats-section">
+  <div class="stats-inner">
+    <div class="stat">
+      <div class="stat-num">40</div>
+      <p class="stat-label"><strong>Vrije dagen per jaar</strong>27 vakantie + 13 ADV</p>
+    </div>
+    <div class="stat">
+      <div class="stat-num">60%</div>
+      <p class="stat-label"><strong>Pensioenbijdrage</strong>Werkgeversdeel</p>
+    </div>
+    <div class="stat">
+      <div class="stat-num">€3.4K</div>
+      <p class="stat-label"><strong>Start-salaris</strong>Bruto per maand</p>
+    </div>
+    <div class="stat">
+      <div class="stat-num">90</div>
+      <p class="stat-label"><strong>Jaar Veco</strong>En we blijven groeien</p>
+    </div>
+  </div>
+</section>
+
+<!-- Final CTA -->
+<section class="final-cta" id="kennismaking">
+  <div class="final-cta-inner">
+    <h2 class="final-cta-title">
+      Laten we <em>kennismaken</em>.<br>
+      Vandaag, morgen, deze week.
+    </h2>
+    <p class="final-cta-sub">
+      Eerste stap: een 15-min videocall met Wouter Arts (Recruitin). Geen CV nodig. Geen geautomatiseerd formulier. Gewoon een gesprek.
+    </p>
+
+    <div class="final-cta-actions">
+      <a href="mailto:warts@recruitin.nl?subject=Veco HSE Engineer" class="btn-magenta">Mail Wouter</a>
+      <a href="https://wa.me/31614314593" class="btn-ghost" style="color:var(--white);border-color:var(--white);">WhatsApp</a>
+    </div>
+
+    <div class="final-cta-contact">
+      Of direct: <a href="tel:+31614314593">+31 6 14 31 45 93</a> · <a href="https://linkedin.com/in/wouterarts">LinkedIn</a>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div>Veco Precision · Karel van Gelreweg 22 · 6961 LB Eerbeek</div>
+  <div>Recruitin B.V. · Doesburg · tech recruitment partner</div>
+  <div>werkenbij.recruitin.nl/veco</div>
+</footer>
+
+</body>
+</html>

@@ -1,34 +1,27 @@
-<!DOCTYPE html>
-<html lang="nl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HSE Engineer — Veco Precision × Recruitin</title>
-<meta name="description" content="HSE Engineer (Environment) bij Veco Precision Eerbeek. HBO/WO starter, focus milieu, mentoring door Wim Workum en Bastiaan de Wit. Groeipad naar Senior in 5 jaar binnen IDEX.">
-<meta property="og:title" content="HSE Engineer — Veco Precision">
-<meta property="og:description" content="Wij hebben de Q en HS. Wij zoeken de E.">
-<meta property="og:type" content="website">
-<meta name="robots" content="index, follow">
+# macOS
+.DS_Store
+._*
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+# Editors
+.vscode/
+.idea/
+*.swp
+*.swo
 
-<style>
-  :root {
-    --veco-magenta: #e06299;
-    --veco-cyan: #4fc4cb;
-    --veco-indigo: #2f3541;
-    --ink: #1a1a1a;
-    --ink-soft: #4a4a4a;
-    --paper: #fafaf7;
-    --paper-warm: #f5f2ec;
-    --white: #ffffff;
-    --line: #e5e0d8;
-  }
-</style>
-</head>
-<body>
-<p>Placeholder — actual content pushed separately via Git (this file is ~29KB, being uploaded next via direct GitHub API to avoid MCP payload truncation).</p>
-</body>
-</html>
+# Node (if we add tooling later)
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Build outputs
+dist/
+build/
+.cache/
+
+# Netlify
+.netlify/
+
+# Environment
+.env
+.env.local
+.env.*.local
